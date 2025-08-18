@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Android Settings</title>
+    <!-- Use Tailwind CSS for a modern, responsive design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Use Inter font */
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 flex items-center justify-center min-h-screen p-4">
+
+    <!-- Main container for the content -->
+    <div class="bg-slate-800 text-white rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl">
+        <h1 class="text-3xl font-bold mb-4">Launch Android Settings</h1>
+        <p class="text-slate-400 mb-6">
+            This button will attempt to open your Android Settings app. This only works on an Android device and may be blocked by some browsers for security reasons.
+        </p>
+
+        <!-- The button that triggers the intent -->
+        <button id="openSettingsBtn" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors duration-200">
+            Open Settings
+        </button>
+    </div>
+
+    <script>
+        // Get the button element
+        const openSettingsBtn = document.getElementById('openSettingsBtn');
+
+        // Add a click event listener to the button
+        openSettingsBtn.addEventListener('click', () => {
+            // The intent URI is a special format for Android deep linking.
+            // It tells the device to find and launch an app based on a package name.
+            // Format: intent://#Intent;action=...;category=...;package=...;end
+            
+            const intentURI = 'intent://#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.android.settings;end';
+
+            // Use window.location.href to try and navigate to the intent URI.
+            // The browser will then hand off this URI to the Android operating system
+            // which will attempt to resolve and open the app.
+            try {
+                window.location.href = intentURI;
+            } catch (error) {
+                console.error("Failed to open Android settings with intent:", error);
+                alert("This action could not be completed. Make sure you are on an Android device.");
+            }
+        });
+    </script>
+
+</body>
+</html>
